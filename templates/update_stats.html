@@ -1,0 +1,89 @@
+from flask import Flask, render_template, request, redirect, url_for, flash
+from datetime import datetime
+import requests
+import json
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your-secret-key' # Tarvitaan flash-viestejä varten
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tornados.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+# Tietokantamallit (esimerkkinä)
+class PlayerStat(db.Model):
+id = db.Column(db.Integer, primary_key=True)
+firstname = db.Column(db.String(80))
+lastname = db.Column(db.String(80))
+games_played = db.Column(db.Integer, default=0)
+goals = db.Column(db.Integer, default=0)
+assists = db.Column(db.Integer, default=0)
+points = db.Column(db.Integer, default=0) # lasketaan automaattisesti: goals + assists
+penalty_minutes = db.Column(db.Integer, default=0)
+
+# Muita malleja, kuten Match, ovat jo määritelty aiemmin
+# ...
+
+# Luo tietokanta, jos sitä ei vielä ole
+with app.app_context():
+db.create_all()
+
+# ... Aiemmat reitit, esim. index, played, stats, about jne.
+
+@app.route('/update_stats', methods=['GET', 'POST'])
+def update_stats():
+# Yksinkertainen salasanan tarkistus; käytä oikeaa autentikointia tuotannossa
+ADMIN_PASSWORD = "secret"
+
+if request.method == 'POST':
+password = request.form.get("password", "")
+if password != ADMIN_PASSWORD:
+flash("Väärä salasana!")
+return redirect(url_for('update_stats'))
+
+firstname = request.form.get("firstname", "").strip()
+lastname = request.form.get("lastname", "").strip()
+try:
+games_played = int(request.form.get("games_played", "0"))
+goals = int(request.form.get("goals", "0"))
+assists = int(request.form.get("assists", "0"))
+penalty_minutes = int(request.form.get("penalty_minutes", "0"))
+except ValueError:
+flash("Virheellinen syöte! Käytä kokonaislukuja.")
+return redirect(url_for('update_stats'))
+
+# Lasketaan pisteet: yksinkertaisesti maalit + syötöt
+points = goals + assists
+
+# Etsitään pelaaja tietokannasta
+player = PlayerStat.query.filter_by(firstname=firstname, lastname=lastname).first()
+if player:
+# Päivitetään olemassaoleva pelaaja
+player.games_played = games_played
+player.goals = goals
+player.assists = assists
+player.points = points
+player.penalty_minutes = penalty_minutes
+flash("Pelaajatilastot päivitetty!")
+else:
+# Luodaan uusi pelaaja, jos sitä ei löydy
+player = PlayerStat(
+firstname=firstname,
+lastname=lastname,
+games_played=games_played,
+goals=goals,
+assists=assists,
+points=points,
+penalty_minutes=penalty_minutes
+)
+db.session.add(player)
+flash("Uusi pelaaja lisätty!")
+
+db.session.commit()
+return redirect(url_for('update_stats'))
+
+# GET: Näytetään lomake
+return render_template('update_stats.html')
+
+if __name__ == '__main__':
+app.run(debug=True)

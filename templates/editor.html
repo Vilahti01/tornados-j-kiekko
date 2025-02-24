@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelaajaeditori</title>
+</head>
+
+<body>
+
+    <h1>Pelaajaeditori</h1>
+
+    <!-- Lisää uusi pelaaja -->
+    <h2>Lisää uusi pelaaja</h2>
+    <form method="POST">
+        <input type="hidden" name="action" value="add">
+        <label>Etunimi:</label>
+        <input type="text" name="firstname" required><br>
+
+        <label>Sukunimi:</label>
+        <input type="text" name="lastname" required><br>
+
+        <label>Pelatut ottelut:</label>
+        <input type="number" name="games_played" required><br>
+
+        <label>Maalit:</label>
+        <input type="number" name="goals" required><br>
+
+        <label>Syötöt:</label>
+        <input type="number" name="assists" required><br>
+
+        <label>Jäähyminuutit:</label>
+        <input type="number" name="penalty_minutes" required><br>
+
+        <button type="submit">Lisää pelaaja</button>
+    </form>
+
+    <hr>
+
+    <!-- Nykyiset pelaajat -->
+    <h2>Muokkaa pelaajia</h2>
+    <table border="1">
+        <tr>
+            <th>Pelaaja</th>
+            <th>Ottelut</th>
+            <th>Maalit</th>
+            <th>Syötöt</th>
+            <th>Pisteet</th>
+            <th>Jäähyt</th>
+            <th>Muokkaa</th>
+            <th>Poista</th>
+        </tr>
+        {% for player in players %}
+        <tr>
+            <td>{{ player.firstname }} {{ player.lastname }}</td>
+            <td>{{ player.games_played }}</td>
+            <td>{{ player.goals }}</td>
+            <td>{{ player.assists }}</td>
+            <td>{{ player.points }}</td>
+            <td>{{ player.penalty_minutes }}</td>
+            <td>
+                <form method="POST">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="player_id" value="{{ player.id }}">
+
+                    <label>Ottelut:</label>
+                    <input type="number" name="games_played" value="{{ player.games_played }}" required><br>
+
+                    <label>Maalit:</label>
+                    <input type="number" name="goals" value="{{ player.goals }}" required><br>
+
+                    <label>Syötöt:</label>
+                    <input type="number" name="assists" value="{{ player.assists }}" required><br>
+
+                    <label>Jäähyt:</label>
+                    <input type="number" name="penalty_minutes" value="{{ player.penalty_minutes }}" required><br>
+
+                    <button type="submit">Päivitä</button>
+                </form>
+            </td>
+            <td>
+                <form method="POST">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="player_id" value="{{ player.id }}">
+                    <button type="submit" style="background-color: red; color: white;">Poista</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <hr>
+
+    <h2>Päivitä Kokoonpano</h2>
+    <form method="POST">
+        <input type="hidden" name="action" value="update_lineup">
+
+        <h3>Hyökkäysketjut</h3>
+        {% for i in range(1, 4) %}
+        <div style="display: flex; gap: 10px;">
+            <label>{{ i }}. Hyökkäys:</label>
+            <input type="text" name="attack{{ i }}_player1"
+                value="{{ lineup['attack' ~ i ~ '_player1'] if lineup is defined else '' }}">
+            <input type="text" name="attack{{ i }}_player2"
+                value="{{ lineup['attack' ~ i ~ '_player2'] if lineup is defined else '' }}">
+            <input type="text" name="attack{{ i }}_player3"
+                value="{{ lineup['attack' ~ i ~ '_player3'] if lineup is defined else '' }}">
+        </div>
+        {% endfor %}
+
+        <h3>Puolustajat</h3>
+        {% for i in range(1, 4) %}
+        <div style="display: flex; gap: 10px;">
+            <label>{{ i }}. Puolustus:</label>
+            <input type="text" name="defense{{ i }}_player1"
+                value="{{ lineup['defense' ~ i ~ '_player1'] if lineup is defined else '' }}">
+            <input type="text" name="defense{{ i }}_player2"
+                value="{{ lineup['defense' ~ i ~ '_player2'] if lineup is defined else '' }}">
+        </div>
+        {% endfor %}
+
+        <h3>Maalivahti</h3>
+        <input type="text" name="goalie" value="{{ lineup.goalie if lineup is defined else '' }}">
+
+        <button type="submit">Päivitä Kokoonpano</button>
+    </form>
+
+
+
+    <hr>
+
+    <a href="{{ url_for('index') }}">Takaisin etusivulle</a>
+    <br>
+    <a href="{{ url_for('logout') }}">Kirjaudu ulos</a>
+
+</body>
+
+</html>

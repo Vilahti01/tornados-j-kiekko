@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tottijärvi Tornados - Etusivu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Bebas Neue', sans-serif;
+            background: linear-gradient(to bottom, #7f8c8d, #2c3e50);
+            color: #ecf0f1;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: #be1300;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .logo-image {
+            width: 150px;
+            height: auto;
+            margin-right: 15px;
+        }
+
+        .links {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .links a {
+            color: #be1300;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 30px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+            text-align: center;
+        }
+
+        .section {
+            width: 90%;
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid #be1300;
+            border-radius: 8px;
+            background-color: rgba(190, 19, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #be1300;
+            text-align: left;
+        }
+
+        th {
+            background-color: #be1300;
+            color: white;
+        }
+
+        .win {
+            color: green;
+            font-weight: bold;
+        }
+
+        .draw {
+            color: yellow;
+            font-weight: bold;
+        }
+
+        .loss {
+            color: red;
+            font-weight: bold;
+        }
+
+        .social-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .social-icon img {
+            width: 30px;
+            /* Suurenna tai pienennä kuvaketta */
+            height: 30px;
+        }
+
+        .instagram {
+            background-color: #be6b44;
+            color: white;
+        }
+
+        .facebook {
+            background-color: #1877F2;
+            color: white;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header-container">
+        <img src="{{ url_for('static', filename='images/Tornados.png') }}" alt="Logo" class="logo-image">
+        <h1>Tottijärvi Tornados</h1>
+    </header>
+
+    <div class="links">
+        <a href="{{ url_for('index') }}">Pääsivu</a>
+        <a href="{{ url_for('played') }}">Pelatut Ottelut</a>
+        <a href="{{ url_for('stats') }}">Pelaajatilastot</a>
+        <a href="{{ url_for('about') }}">Lisätiedot</a>
+    </div>
+
+    <!-- Pelipäivän Kokoonpanot -->
+    {% if lineup.attack1_player1 or lineup.attack1_player2 or lineup.attack1_player3
+    or lineup.attack2_player1 or lineup.attack2_player2 or lineup.attack2_player3
+    or lineup.attack3_player1 or lineup.attack3_player2 or lineup.attack3_player3
+    or lineup.defense1_player1 or lineup.defense1_player2
+    or lineup.defense2_player1 or lineup.defense2_player2
+    or lineup.defense3_player1 or lineup.defense3_player2
+    or lineup.goalie %}
+    <div class="section">
+        <h2>Pelipäivän Kokoonpanot</h2>
+
+        <!-- Hyökkäysketjut -->
+        <h3>Hyökkäysketjut</h3>
+        {% for line in attack_lines %}
+        {% if line[0] or line[1] or line[2] %}
+        <p>{{ line|join(' - ') }}</p>
+        {% endif %}
+        {% endfor %}
+
+        <!-- Puolustus -->
+        <h3>Puolustajat</h3>
+        {% for line in defense_lines %}
+        {% if line[0] or line[1] %}
+        <p>{{ line|join(' - ') }}</p>
+        {% endif %}
+        {% endfor %}
+
+        <!-- Maalivahti -->
+        <h3>Maalivahti</h3>
+        <p>{{ goalie if goalie else "Ei maalivahtia" }}</p>
+
+    </div>
+    {% endif %}
+
+
+
+
+    <!-- Tulevat Ottelut -->
+    <div class="section">
+        <h2>Tulevat Ottelut</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ottelu</th>
+                    <th>Päivämäärä</th>
+                    <th>Kellonaika</th>
+                    <th>Kenttä</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for game in upcoming_games %}
+                <tr>
+                    <td>{{ game.HomeTeamAbbrv }} vs {{ game.AwayTeamAbbrv }}</td>
+                    <td>{{ game.GameDate }}</td>
+                    <td>{{ game.GameTime }}</td>
+                    <td>{{ game.RinkName }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Top 3 Pistemiehet -->
+    <div class="section">
+        <h2>Top 3 Pistemiehet</h2>
+        {% if top_players %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Pelaaja</th>
+                    <th>Maalit</th>
+                    <th>Syötöt</th>
+                    <th>Pisteet</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in top_players %}
+                <tr>
+                    <td>{{ player.firstname }} {{ player.lastname }}</td>
+                    <td>{{ player.goals }}</td>
+                    <td>{{ player.assists }}</td>
+                    <td>{{ player.points }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Ei pistetietoja saatavilla.</p>
+        {% endif %}
+    </div>
+    <!-- Sosiaalisten medioiden linkit -->
+    <div class="social-links">
+        <a href="https://www.instagram.com/tjtornados/" target="_blank" class="social-icon instagram">
+            <img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram">
+            Instagram
+        </a>
+        <a href="https://www.facebook.com/TjTornados/?locale=fi_FI" target="_blank" class="social-icon facebook">
+            <img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook">
+            Facebook
+        </a>
+    </div>
+
+
+</body>
+
+</html>

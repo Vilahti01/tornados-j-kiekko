@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lisätietoa Tornadosista</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+    <style>
+        /* Sivun yleinen tyylitys */
+        body {
+            font-family: 'Bebas Neue', sans-serif;
+            background: linear-gradient(to bottom, #7f8c8d, #2c3e50);
+            /* Häivytys harmaasta mustaksi */
+            color: #ecf0f1;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        /* Pääkappaleen värit */
+        h1,
+        h2,
+        h3 {
+            color: #be1300;
+        }
+
+        /* Linkkien tyylit */
+        .links {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .links a {
+            color: #be1300;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+
+
+
+        /* Sisällön tyylit */
+        .content {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Tiedot Tornadosista */
+        .history {
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 18px;
+        }
+
+        /* Tornados logo */
+        .logo-image {
+            width: 100px;
+            height: auto;
+            margin-right: 15px;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .social-icon img {
+            width: 30px;
+            /* Suurenna tai pienennä kuvaketta */
+            height: 30px;
+        }
+
+        .instagram {
+            background-color: #be6b44;
+            color: white;
+        }
+
+        .facebook {
+            background-color: #1877F2;
+            color: white;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+    </style>
+</head>
+
+<body>
+
+    <header class="header-container">
+        <img src="{{ url_for('static', filename='images/Tornados.png') }}" alt="Logo" class="logo-image">
+        <h1>Tottijärvi Tornados - Historiaa</h1>
+    </header>
+
+    <!-- Linkit pääsivulle ja Statistiikoihin -->
+    <div class="links">
+        <a href="{{ url_for('index') }}">Pääsivu</a>
+        <a href="{{ url_for('stats') }}">Pelaajatilastot</a>
+        <a href="{{ url_for('played') }}">Pelatut Ottelut</a>
+    </div>
+
+    <!-- Sisältö -->
+    <div class="content">
+        <h3>Tornadosin Historia</h3>
+
+        <!-- Historiaa Tornadosista -->
+        <div class="history">
+            <p>Tottijärvi Tornados on punamusta jääkiekkoseura, joka perustettiin vuonna 2017. Joukkue on nopeasti
+                saavuttanut suosiota Hämeen alueella ja on vakiinnuttanut paikkansa alueen harrastesarjoissa. Tottijärvi
+                Tornados on tunnettu intohimoisista pelaajistaan, aktiivisesta fanikunnastaan ja jännittävistä
+                otteluistaan.
+
+                Seura on kasvanut nopeasti ja saanut suuren osan jääkiekkofaneista ympäri Hämettä kannattamaan heidän
+                matkaansa. Tornadosin motto on, että harrastehockey on enemmän kuin vain peli — se on yhteisön voima,
+                jolle tärkeintä on hyvä henki, hauskanpito ja yhteinen tavoite.
+
+                Joukkue on tunnettu siitä, että he pelaavat sydämellään ja tekevät kaikkensa saadakseen jokaisen ottelun
+                täyteen jännitystä. Jokainen ottelu on mahdollisuus viedä joukkue kohti uutta voittoa, mutta yhtä
+                tärkeää on luoda yhdessä unohtumattomia muistoja ja kokea yhteisöllisyyttä jääkiekon parissa.
+
+                Tottijärvi Tornados on enemmän kuin vain urheiluseura — se on perhe, joka toivottaa tervetulleeksi
+                kaikki uudet jäsenet ja fanit. Liity mukaan ja seuraa Tornadosin matkaa kohti uusia huippuja!</p>
+            <p>Yhteystiedot:</p>
+            <p>Email: <a href="mailto:tjtornados@gmail.com">tjtornados@gmail.com</a></p>
+        </div>
+    </div>
+
+    <!-- Sosiaalisten medioiden linkit -->
+    <div class="social-links">
+        <a href="https://www.instagram.com/tjtornados/" target="_blank" class="social-icon instagram">
+            <img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram">
+            Instagram
+        </a>
+        <a href="https://www.facebook.com/TjTornados/?locale=fi_FI" target="_blank" class="social-icon facebook">
+            <img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook">
+            Facebook
+        </a>
+    </div>
+
+</body>
+
+</html>
