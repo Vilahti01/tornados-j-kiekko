@@ -16,6 +16,7 @@
             min-height: 100vh;
         }
 
+
         h1,
         h2,
         h3,
@@ -35,6 +36,39 @@
             height: auto;
             margin-right: 15px;
         }
+
+        .sponsor-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            /* Siirtää alaspäin */
+
+        }
+
+        .sponsor1 {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            clip-path: inset(20px 0px 20px 0px round 20px);
+
+
+
+        }
+
+        .sponsor2 {
+            width: 160px;
+            height: auto;
+            border-radius: 15px;
+        }
+
+        .sponsor3 {
+            width: 160px;
+            height: auto;
+            border-radius: 15px;
+        }
+
 
         .links {
             text-align: center;
@@ -247,6 +281,14 @@
             <img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook">
             Facebook
         </a>
+    </div>
+
+    <div class="sponsor-container">
+        <h2>Toiminnan takaavat:</h2>
+        <img src="{{ url_for('static', filename='images/mirla.png') }}" alt="mirla" class="sponsor1">
+        <img src="{{ url_for('static', filename='images/Siuvon tila.png') }}" alt="siuvon_tila" class="sponsor2">
+        <img src="{{ url_for('static', filename='images/janglas.png') }}" alt="janglas" class="sponsor3">
+        <!--img src="static/images/sponsor3.png" alt="Sponsor 3" class="sponsor"-->
     </div>
 
 

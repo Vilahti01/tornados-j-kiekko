@@ -7,15 +7,20 @@ import requests
 
 app = Flask(__name__)
 
-#  Turvallisuus & Tietokanta-asetukset
+# Tarkistetaan, käytetäänkö Renderin PostgreSQL:ää vai lokaalia SQLitea
+if os.getenv("DATABASE_URL"):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+        "DATABASE_URL").replace("postgres://", "postgresql://")
+else:
+    # Varmistetaan, että instance-kansio on olemassa
+    os.makedirs("instance", exist_ok=True)
+    db_path = os.path.join(app.instance_path, 'players.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.config['SECRET_KEY'] = 'supersecretkey'
 db = SQLAlchemy(app)
+
 
 #  Admin-käyttäjän salasana
 ADMIN_PASSWORD = "TornadosAdmin123"
