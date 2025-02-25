@@ -10,7 +10,9 @@ app = Flask(__name__)
 #  Turvallisuus & Tietokanta-asetukset
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(BASE_DIR, "instance", "players.db")}'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['SECRET_KEY'] = 'supersecretkey'
 db = SQLAlchemy(app)
@@ -326,7 +328,7 @@ def health_check():
 
 with app.app_context():
     db.create_all()
-    print("✅ Tietokanta ja taulut luotu (tai olemassa jo).")
+    print(" Tietokanta ja taulut luotu (tai olemassa jo).")
 
 if __name__ == '__main__':
     app.run(debug=True)
