@@ -165,6 +165,14 @@
         .social-icon:hover {
             transform: scale(1.1);
         }
+
+        .highlight {
+            background-color: #ff270f;
+
+            font-weight: bold;
+            color: black;
+
+        }
     </style>
 </head>
 
@@ -269,6 +277,46 @@
         </table>
         {% else %}
         <p>Ei pistetietoja saatavilla.</p>
+        {% endif %}
+    </div>
+    <!-- Sarjataulukko -->
+    <div class="section">
+        <h2>Sarjataulukko: Harraste 3</h2>
+        {% if standings and standings.Teams %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Sijoitus</th>
+                    <th>Joukkue</th>
+                    <th>Ottelut</th>
+                    <th>Voitot</th>
+                    <th>Tasapelit</th>
+                    <th>Häviöt</th>
+                    <th>Maalit (Ero)</th>
+                    <th>Pisteet</th>
+                    <th>Pisteet per peli</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in standings.Teams %}
+                <tr>
+                <tr {% if team.TeamAbbrv=="Tornados" %} class="highlight" {% endif %}>
+
+                    <td>{{ team.Ranking or "N/A" }}</td>
+                    <td>{{ team.TeamAbbrv or "Ei nimeä" }}</td>
+                    <td>{{ team.Games or "Ei otteluita" }}</td>
+                    <td>{{ team.Wins or "Ei voittoja" }}</td>
+                    <td>{{ team.Ties or "Ei tasapelejä" }}</td>
+                    <td>{{ team.Looses or "Ei häviöitä" }}</td>
+                    <td>{{ team.GoalsFor }} - {{ team.GoalsAgainst }} ({{ team.GoalDiff }})</td>
+                    <td>{{ team.Points or "Ei pisteitä" }}</td>
+                    <td>{{ team.PointsPerGame or "Ei PPG" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Sarjataulukkotietoja ei löytynyt.</p>
         {% endif %}
     </div>
     <!-- Sosiaalisten medioiden linkit -->

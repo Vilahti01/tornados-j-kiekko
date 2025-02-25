@@ -13,7 +13,7 @@ if os.getenv("DATABASE_URL"):
         "DATABASE_URL").replace("postgres://", "postgresql://")
 else:
     # Varmistetaan, että instance-kansio on olemassa
-    os.makedirs("instance", exist_ok=True)
+    os.makedirs("instance/.gitignore", exist_ok=True)
     db_path = os.path.join(app.instance_path, 'players.db')
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 
@@ -204,7 +204,10 @@ def index():
 @app.route('/played')
 def played():
     games_data = get_games_data()
-    return render_template('played.html', played_games=games_data["played"][1:])
+    return render_template('played.html', played_games=games_data["played"][0:])
+
+
+print(get_games_data())
 
 
 #  Pelaajatilastot

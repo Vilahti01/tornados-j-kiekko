@@ -31,7 +31,7 @@
         }
 
         .logo-image {
-            width: 100px;
+            width: 150px;
             height: auto;
             margin-right: 15px;
         }
@@ -86,7 +86,7 @@
         }
 
         .social-links a {
-            color: #be1300;
+            color: #ffffff;
             font-size: 24px;
             margin: 0 15px;
         }
@@ -195,13 +195,13 @@
             }
 
             .win {
-                color: #27ae60;
+                color: #2cbe00;
                 /* Vihreä */
                 font-weight: bold;
             }
 
             .loss {
-                color: #e74c3c;
+                color: #db1600;
                 /* Punainen */
                 font-weight: bold;
             }
@@ -210,6 +210,43 @@
                 color: #f1c40f;
                 /* Keltainen */
                 font-weight: bold;
+            }
+
+            .social-links {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .social-icon {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 22px;
+                font-weight: bold;
+                text-decoration: none;
+                padding: 10px 20px;
+                border-radius: 8px;
+                transition: all 0.3s ease-in-out;
+            }
+
+            .social-icon img {
+                width: 30px;
+                /* Suurenna tai pienennä kuvaketta */
+                height: 30px;
+            }
+
+            .instagram {
+                background-color: #be6b44;
+                color: white;
+            }
+
+            .facebook {
+                background-color: #1877F2;
+                color: white;
+            }
+
+            .social-icon:hover {
+                transform: scale(1.1);
             }
         </style>
     </head>
@@ -222,6 +259,7 @@
                 <thead>
                     <tr>
                         <th>Päivämäärä</th>
+                        <th>Aika</th>
                         <th>Ottelu</th>
                         <th>Tulos</th>
                         <th>Kenttä</th>
@@ -240,6 +278,7 @@
                     {% endif %}
                 ">
                         <td>{{ game.GameDate }}</td>
+                        <td>{{ game.GameTime }}</td>
                         <td>{{ game.HomeTeamAbbrv }} vs {{ game.AwayTeamAbbrv }}</td>
                         <td>{{ game.HomeGoals }} - {{ game.AwayGoals }}</td>
                         <td>{{ game.RinkName }}</td>
