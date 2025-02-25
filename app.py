@@ -319,5 +319,14 @@ def about():
     return render_template('about.html')
 
 
+@app.route('/healthz')
+def health_check():
+    return "OK", 200
+
+
+with app.app_context():
+    db.create_all()
+    print("✅ Tietokanta ja taulut luotu (tai olemassa jo).")
+
 if __name__ == '__main__':
     app.run(debug=True)
