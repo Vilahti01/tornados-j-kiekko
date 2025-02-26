@@ -185,7 +185,7 @@
 
     <div class="links">
         <a href="{{ url_for('index') }}">Pääsivu</a>
-        <a href="{{ url_for('played') }}">Pelatut Ottelut</a>
+        <a href="{{ url_for('played') }}">Joukkuetilastot</a>
         <a href="{{ url_for('stats') }}">Pelaajatilastot</a>
         <a href="{{ url_for('about') }}">Lisätiedot</a>
     </div>
@@ -289,12 +289,7 @@
                     <th>Sijoitus</th>
                     <th>Joukkue</th>
                     <th>Ottelut</th>
-                    <th>Voitot</th>
-                    <th>Tasapelit</th>
-                    <th>Häviöt</th>
-                    <th>Maalit (Ero)</th>
                     <th>Pisteet</th>
-                    <th>Pisteet per peli</th>
                 </tr>
             </thead>
             <tbody>
@@ -305,12 +300,7 @@
                     <td>{{ team.Ranking or "N/A" }}</td>
                     <td>{{ team.TeamAbbrv or "Ei nimeä" }}</td>
                     <td>{{ team.Games or "Ei otteluita" }}</td>
-                    <td>{{ team.Wins or "Ei voittoja" }}</td>
-                    <td>{{ team.Ties or "Ei tasapelejä" }}</td>
-                    <td>{{ team.Looses or "Ei häviöitä" }}</td>
-                    <td>{{ team.GoalsFor }} - {{ team.GoalsAgainst }} ({{ team.GoalDiff }})</td>
                     <td>{{ team.Points or "Ei pisteitä" }}</td>
-                    <td>{{ team.PointsPerGame or "Ei PPG" }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tottijärvi Tornados - Joukkuetilastot</title>
+    <title>Tottijärvi Tornados - Pelatut Ottelut</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
         body {
@@ -137,13 +137,12 @@
 <body>
     <header class="header-container">
         <img src="{{ url_for('static', filename='images/Tornados.png') }}" alt="Logo" class="logo-image">
-        <h1>Tottijärvi Tornados - Joukkuetilastot</h1>
+        <h1>Tottijärvi Tornados</h1>
     </header>
 
     <div class="links">
         <a href="{{ url_for('index') }}">Pääsivu</a>
-        <a href="{{ url_for('stats') }}">Pelaajatilastot</a>
-        <a href="{{ url_for('played') }}">Joukkuetilastot</a>
+        <a href="{{ url_for('stats') }}">Statistiikat</a>
         <a href="{{ url_for('about') }}">Lisätiedot</a>
     </div>
 
@@ -172,24 +171,9 @@
             }
 
             .container {
-                width: 70%;
+                width: 80%;
                 margin: auto;
                 text-align: center;
-                width: 80%;
-                margin: 20px auto;
-                padding: 15px;
-                border: 1px solid #be1300;
-                border-radius: 8px;
-                background-color: rgba(190, 19, 0, 0.1);
-            }
-
-            .section {
-                width: 70%;
-                margin: 20px auto;
-                padding: 15px;
-                border: 1px solid #be1300;
-                border-radius: 8px;
-                background-color: rgba(190, 19, 0, 0.1);
             }
 
             table {
@@ -264,56 +248,8 @@
             .social-icon:hover {
                 transform: scale(1.1);
             }
-
-            .highlight {
-                background-color: #ff270f;
-
-                font-weight: bold;
-                color: black;
-
-            }
         </style>
     </head>
-    <!-- Sarjataulukko -->
-    <div class="section">
-        <h2>Sarjataulukko: Harraste 3</h2>
-        {% if standings and standings.Teams %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Sijoitus</th>
-                    <th>Joukkue</th>
-                    <th>Ottelut</th>
-                    <th>Voitot</th>
-                    <th>Tasapelit</th>
-                    <th>Häviöt</th>
-                    <th>Maaliero</th>
-                    <th>Pisteet</th>
-                    <th>Pisteet per peli</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for team in standings.Teams %}
-                <tr>
-                <tr {% if team.TeamAbbrv=="Tornados" %} class="highlight" {% endif %}>
-
-                    <td>{{ team.Ranking or "N/A" }}</td>
-                    <td>{{ team.TeamAbbrv or "Ei nimeä" }}</td>
-                    <td>{{ team.Games or "Ei otteluita" }}</td>
-                    <td>{{ team.Wins or "Ei voittoja" }}</td>
-                    <td>{{ team.Ties or "Ei tasapelejä" }}</td>
-                    <td>{{ team.Looses or "Ei häviöitä" }}</td>
-                    <td>{{ team.GoalsFor }} - {{ team.GoalsAgainst }} ({{ team.GoalDiff }})</td>
-                    <td>{{ team.Points or "Ei pisteitä" }}</td>
-                    <td>{{ team.PointsPerGame or "Ei PPG" }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p>Sarjataulukkotietoja ei löytynyt.</p>
-        {% endif %}
-    </div>
 
     <body>
 

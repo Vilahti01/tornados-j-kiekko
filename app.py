@@ -204,10 +204,8 @@ def index():
 @app.route('/played')
 def played():
     games_data = get_games_data()
-    return render_template('played.html', played_games=games_data["played"][0:])
-
-
-print(get_games_data())
+    standings = fetch_standings()  # Haetaan sarjataulukko myös tälle sivulle
+    return render_template('played.html', played_games=games_data["played"], standings=standings)
 
 
 #  Pelaajatilastot
