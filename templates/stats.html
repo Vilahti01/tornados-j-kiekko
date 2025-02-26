@@ -160,6 +160,23 @@
         .social-icon:hover {
             transform: scale(1.1);
     </style>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+    <!-- jQuery ja DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            console.log("DataTables käynnistetään...");
+            $('#statsTable').DataTable({
+                "order": [[2, "desc"]],  // Oletuslajittelu: Maalit (sarakkeen 2 indeksi)
+                "paging": true,  // Sivutus päälle
+                "searching": true  // Hakutoiminto päälle
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -176,11 +193,10 @@
         <a href="{{ url_for('played') }}">Joukkuetilastot</a>
     </div>
 
-    <!-- Pelaajien tilastot -->
     <div class="content">
         <h3>Pelaajatilastot</h3>
         {% if players %}
-        <table>
+        <table id="statsTable"> <!-- 🔹 Korjattu taulukon ID -->
             <thead>
                 <tr>
                     <th>Pelaaja</th>
@@ -208,6 +224,7 @@
         <p>Ei pelaajatilastoja saatavilla.</p>
         {% endif %}
     </div>
+
 
 
 
