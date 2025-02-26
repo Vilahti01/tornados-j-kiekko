@@ -63,13 +63,40 @@
 
 
         /* Statistiikkataulukon tyyli */
-        table {
-            width: 80%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            margin-left: auto;
-            margin-right: auto;
+        /* Responsiivinen taulukko */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            /* Mahdollistaa vierityksen pienillä näytöillä */
         }
+
+        table {
+            width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* Sarakkeiden tyyli */
+        th,
+        td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #be1300;
+            white-space: nowrap;
+            /* Estää liian aikaisen rivittymisen */
+        }
+
+        /* Pienemmille näytöille fontin pienennys */
+        @media screen and (max-width: 768px) {
+
+            th,
+            td {
+                font-size: 12px;
+                /* Pienennä fonttia mobiilissa */
+                padding: 6px;
+            }
+        }
+
 
         th,
         td {
@@ -201,50 +228,52 @@
     <div class="content">
         <h3>Pelaajatilastot</h3>
         {% if players %}
-        <table id="statsTable"> <!-- 🔹 Korjattu taulukon ID -->
-            <thead>
-                <tr>
-                    <th>Pelaaja</th>
-                    <th>Pelatut Ottelut</th>
-                    <th>Maalit</th>
-                    <th>Syötöt</th>
-                    <th>Pisteet</th>
-                    <th>Jäähyt</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for player in players %}
-                <tr>
-                    <td>{{ player.firstname }} {{ player.lastname }}</td>
-                    <td>{{ player.games_played }}</td>
-                    <td>{{ player.goals }}</td>
-                    <td>{{ player.assists }}</td>
-                    <td>{{ player.points }}</td>
-                    <td>{{ player.penalty_minutes }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p>Ei pelaajatilastoja saatavilla.</p>
-        {% endif %}
-    </div>
+        <div class="table-container">
+            <table id="statsTable">
+
+                <thead>
+                    <tr>
+                        <th>Pelaaja</th>
+                        <th>Pelatut Ottelut</th>
+                        <th>Maalit</th>
+                        <th>Syötöt</th>
+                        <th>Pisteet</th>
+                        <th>Jäähyt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players %}
+                    <tr>
+                        <td>{{ player.firstname }} {{ player.lastname }}</td>
+                        <td>{{ player.games_played }}</td>
+                        <td>{{ player.goals }}</td>
+                        <td>{{ player.assists }}</td>
+                        <td>{{ player.points }}</td>
+                        <td>{{ player.penalty_minutes }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>Ei pelaajatilastoja saatavilla.</p>
+            {% endif %}
+        </div>
 
 
 
 
 
-    <!-- Sosiaalisten medioiden linkit -->
-    <div class="social-links">
-        <a href="https://www.instagram.com/tjtornados/" target="_blank" class="social-icon instagram">
-            <img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram">
-            Instagram
-        </a>
-        <a href="https://www.facebook.com/TjTornados/?locale=fi_FI" target="_blank" class="social-icon facebook">
-            <img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook">
-            Facebook
-        </a>
-    </div>
+        <!-- Sosiaalisten medioiden linkit -->
+        <div class="social-links">
+            <a href="https://www.instagram.com/tjtornados/" target="_blank" class="social-icon instagram">
+                <img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram">
+                Instagram
+            </a>
+            <a href="https://www.facebook.com/TjTornados/?locale=fi_FI" target="_blank" class="social-icon facebook">
+                <img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook">
+                Facebook
+            </a>
+        </div>
 
 </body>
 

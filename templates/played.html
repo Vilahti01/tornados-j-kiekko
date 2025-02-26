@@ -177,26 +177,50 @@
                 text-align: center;
                 width: 80%;
                 margin: 20px auto;
-                padding: 15px;
-                border: 1px solid #be1300;
-                border-radius: 8px;
-                background-color: rgba(190, 19, 0, 0.1);
+
             }
 
             .section {
                 width: 70%;
                 margin: 20px auto;
                 padding: 15px;
-                border: 1px solid #be1300;
-                border-radius: 8px;
-                background-color: rgba(190, 19, 0, 0.1);
             }
 
+            /* Responsiivinen taulukko: Estää ylivuodon mobiilissa */
+            .table-container {
+                width: 100%;
+                overflow-x: auto;
+                /* Vieritys tarvittaessa */
+            }
+
+            /* Skaalaa taulukko oikein eri näyttöleveyksillä */
             table {
                 width: 100%;
+                max-width: 100%;
                 border-collapse: collapse;
-                margin-top: 20px;
             }
+
+            /* Sarakkeiden tyyli */
+            th,
+            td {
+                padding: 12px;
+                text-align: center;
+                border: 1px solid #be1300;
+                white-space: nowrap;
+                /* Estää liian aikaisen rivittymisen */
+            }
+
+            /* Pienemmille näytöille fontin pienennys */
+            @media screen and (max-width: 768px) {
+
+                th,
+                td {
+                    font-size: 12px;
+                    /* Pienennä fonttia mobiilissa */
+                    padding: 6px;
+                }
+            }
+
 
             th,
             td {
@@ -278,60 +302,62 @@
     <div class="section">
         <h2>Sarjataulukko: Harraste 3</h2>
         {% if standings and standings.Teams %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Sijoitus</th>
-                    <th>Joukkue</th>
-                    <th>Ottelut</th>
-                    <th>Voitot</th>
-                    <th>Tasapelit</th>
-                    <th>Häviöt</th>
-                    <th>Maaliero</th>
-                    <th>Pisteet</th>
-                    <th>Pisteet per peli</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for team in standings.Teams %}
-                <tr>
-                <tr {% if team.TeamAbbrv=="Tornados" %} class="highlight" {% endif %}>
-
-                    <td>{{ team.Ranking or "N/A" }}</td>
-                    <td>{{ team.TeamAbbrv or "Ei nimeä" }}</td>
-                    <td>{{ team.Games or "Ei otteluita" }}</td>
-                    <td>{{ team.Wins or "Ei voittoja" }}</td>
-                    <td>{{ team.Ties or "Ei tasapelejä" }}</td>
-                    <td>{{ team.Looses or "Ei häviöitä" }}</td>
-                    <td>{{ team.GoalsFor }} - {{ team.GoalsAgainst }} ({{ team.GoalDiff }})</td>
-                    <td>{{ team.Points or "Ei pisteitä" }}</td>
-                    <td>{{ team.PointsPerGame or "Ei PPG" }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p>Sarjataulukkotietoja ei löytynyt.</p>
-        {% endif %}
-    </div>
-
-    <body>
-
-        <h1>Pelatut Ottelut</h1>
-        <div class="container">
+        <div class="table-container">
             <table>
+
                 <thead>
                     <tr>
-                        <th>Päivämäärä</th>
-                        <th>Aika</th>
-                        <th>Ottelu</th>
-                        <th>Tulos</th>
-                        <th>Kenttä</th>
+                        <th>Sijoitus</th>
+                        <th>Joukkue</th>
+                        <th>Ottelut</th>
+                        <th>Voitot</th>
+                        <th>Tasapelit</th>
+                        <th>Häviöt</th>
+                        <th>Maaliero</th>
+                        <th>Pisteet</th>
+                        <th>Pisteet per peli</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for game in played_games %}
-                    <tr class="
+                    {% for team in standings.Teams %}
+                    <tr>
+                    <tr {% if team.TeamAbbrv=="Tornados" %} class="highlight" {% endif %}>
+
+                        <td>{{ team.Ranking or "N/A" }}</td>
+                        <td>{{ team.TeamAbbrv or "Ei nimeä" }}</td>
+                        <td>{{ team.Games or "Ei otteluita" }}</td>
+                        <td>{{ team.Wins or "Ei voittoja" }}</td>
+                        <td>{{ team.Ties or "Ei tasapelejä" }}</td>
+                        <td>{{ team.Looses or "Ei häviöitä" }}</td>
+                        <td>{{ team.GoalsFor }} - {{ team.GoalsAgainst }} ({{ team.GoalDiff }})</td>
+                        <td>{{ team.Points or "Ei pisteitä" }}</td>
+                        <td>{{ team.PointsPerGame or "Ei PPG" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>Sarjataulukkotietoja ei löytynyt.</p>
+            {% endif %}
+        </div>
+
+        <body>
+
+            <h1>Pelatut Ottelut</h1>
+            <div class="container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Päivämäärä</th>
+                            <th>Aika</th>
+                            <th>Ottelu</th>
+                            <th>Tulos</th>
+                            <th>Kenttä</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for game in played_games %}
+                        <tr class="
                     {% if (game.HomeTeamAbbrv == 'Tornados' and game.HomeGoals > game.AwayGoals) or
                            (game.AwayTeamAbbrv == 'Tornados' and game.AwayGoals > game.HomeGoals) %}
                         win
@@ -341,18 +367,18 @@
                         loss
                     {% endif %}
                 ">
-                        <td>{{ game.GameDate }}</td>
-                        <td>{{ game.GameTime }}</td>
-                        <td>{{ game.HomeTeamAbbrv }} vs {{ game.AwayTeamAbbrv }}</td>
-                        <td>{{ game.HomeGoals }} - {{ game.AwayGoals }}</td>
-                        <td>{{ game.RinkName }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                            <td>{{ game.GameDate }}</td>
+                            <td>{{ game.GameTime }}</td>
+                            <td>{{ game.HomeTeamAbbrv }} vs {{ game.AwayTeamAbbrv }}</td>
+                            <td>{{ game.HomeGoals }} - {{ game.AwayGoals }}</td>
+                            <td>{{ game.RinkName }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-    </body>
+        </body>
 
     </html>
 
