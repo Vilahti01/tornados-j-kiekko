@@ -7,6 +7,8 @@ import requests
 
 app = Flask(__name__)
 
+app.config['SECRET_KEY'] = 'supersecretkey'
+
 # Tarkistetaan, käytetäänkö Renderin PostgreSQL:ää vai lokaalia SQLitea
 if os.getenv("DATABASE_URL"):
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
@@ -16,7 +18,7 @@ else:
     os.makedirs("instance/.gitignore", exist_ok=True)
     db_path = os.path.join(app.instance_path, 'players.db')
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
-    app.config['SECRET_KEY'] = 'supersecretkey'  # Vaihda tämä vahvemmaksi!
+
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
